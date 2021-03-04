@@ -1,0 +1,31 @@
+{
+  "name": "ragu-simple-adapter",
+  "version": "1.0.0",
+  "description": "A simple adapter for Ragu",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ragu-framework/ragu-simple-adapter.git"
+  },
+  "author": "Maniero",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ragu-framework/ragu-simple-adapter/issues"
+  },
+  "homepage": "https://github.com/ragu-framework/ragu-simple-adapter#readme",
+  "dependencies": {
+    "ragu-server": "^0.0.59"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^16.2.6",
+    "get-port": "^5.1.1",
+    "jest": "^26.6.3",
+    "jsdom": "^16.4.0",
+    "ts-jest": "^26.5.2",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.2"
+  }
+}

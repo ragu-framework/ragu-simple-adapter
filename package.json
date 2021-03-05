@@ -1,6 +1,6 @@
 {
   "name": "ragu-simple-adapter",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A simple adapter for Ragu",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/ragu-framework/ragu-simple-adapter#readme",
   "dependencies": {
-    "ragu-server": "^0.0.61"
+    "ragu-server": "^0.0.62"
   },
   "devDependencies": {
     "@types/jsdom": "^16.2.6",

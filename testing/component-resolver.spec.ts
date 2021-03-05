@@ -2,12 +2,12 @@ import {SimpleSingleComponentResolver} from "../component-resolver";
 import {createTestConfig} from "./test-config-factory";
 import * as path from "path";
 import jsdom, {ConstructorOptions} from "jsdom";
-import {ClientSideCompiler, RaguServerConfig} from "ragu-server";
+import {ComponentsCompiler, RaguServerConfig} from "ragu-server";
 import fs from "fs";
 
 describe('ComponentResolver', () => {
   describe('client side config', () => {
-    let compiler: ClientSideCompiler;
+    let compiler: ComponentsCompiler;
     let config: RaguServerConfig;
     let dom: jsdom.JSDOM;
 
@@ -15,12 +15,12 @@ describe('ComponentResolver', () => {
     beforeAll(async () => {
       config = await createTestConfig();
 
-      let componentFile = path.resolve(__dirname, 'components', 'hello-world.js');
+      let componentFile = path.resolve(__dirname, 'components', 'hello-world');
 
       config.components.resolver = new SimpleSingleComponentResolver(
           config, componentFile);
 
-      compiler = new ClientSideCompiler(config);
+      compiler = new ComponentsCompiler(config);
       await compiler.compileAll();
     });
 
@@ -44,10 +44,10 @@ describe('ComponentResolver', () => {
     }
 
     it('renders a simple component', async () => {
-      await evalCompiledClient('index');
+      await evalCompiledClient('hello-world');
 
       dom.window.disconnectStub = jest.fn();
-      const resolvedComponent = (window as any)['test_components_index'].default;
+      const resolvedComponent = (window as any)['test_components_hello-world'].default;
       const div = dom.window.document.createElement('div');
 
       await resolvedComponent.render(div, {name: 'World'});

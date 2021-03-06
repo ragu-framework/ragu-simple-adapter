@@ -1,6 +1,6 @@
 {
   "name": "ragu-simple-adapter",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A simple adapter for Ragu",
   "main": "index.js",
   "scripts": {
@@ -17,15 +17,14 @@
     "url": "https://github.com/ragu-framework/ragu-simple-adapter/issues"
   },
   "homepage": "https://github.com/ragu-framework/ragu-simple-adapter#readme",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/jest": "^26.0.20",
-    "ragu-server": "^0.0.64",
     "@types/jsdom": "^16.2.6",
     "get-port": "^5.1.1",
     "jest": "^26.6.3",
     "jsdom": "^16.4.0",
+    "ragu-server": "^0.0.64",
     "ts-jest": "^26.5.3",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3"

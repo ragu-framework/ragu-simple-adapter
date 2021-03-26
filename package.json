@@ -1,6 +1,6 @@
 {
   "name": "ragu-simple-adapter",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "A simple adapter for Ragu",
   "main": "index.js",
   "scripts": {

@@ -77,6 +77,33 @@ describe('ComponentResolver', () => {
       expect(renderResult.html).toContain('Hello, World!');
     });
 
+    it('hydrates the component from server with a state', async () => {
+      config.ssrEnabled = true;
+      const compiler = new ServerSideCompiler(config);
+      await compiler.compileAll();
+
+      const componentPath = compiler.compiledComponentPath('hello-world');
+
+      const renderResult = await new ComponentRenderService(config)
+          .renderComponent('hello-world', [], componentPath, "http://", {name: 'World!'}, {} as any);
+
+      const div = dom.window.document.createElement('div');
+      (div as any).connectedStub = jest.fn();
+
+      div.innerHTML = renderResult.html
+
+      await evalCompiledClient('hello-world');
+
+      const resolvedComponent = (window as any)['test_components_hello-world'].default;
+
+      await resolvedComponent.hydrate(div, {name: 'World'});
+
+      expect(div.textContent).toContain('Hello, World');
+
+      div.click();
+      expect((div as any).connectedStub).toBeCalled();
+    });
+
     it('renders a simple component', async () => {
       await evalCompiledClient('hello-world');
 

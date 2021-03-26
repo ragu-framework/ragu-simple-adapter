@@ -1,6 +1,10 @@
 module.exports = (component) => ({
-  hydrate: function (el, props, state) {
-    this.render(el, props, state);
+  hydrate: function (element, params, state) {
+    element.raguSimpleAdapterData = component({element, params, state, isServer: false});
+
+    if (element.raguSimpleAdapterData && element.raguSimpleAdapterData.connectedCallback) {
+      element.raguSimpleAdapterData.connectedCallback();
+    }
   },
   render: function (element, params, state) {
     element.raguSimpleAdapterData = component({element, params, state, isServer: false});

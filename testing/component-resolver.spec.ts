@@ -2,8 +2,9 @@ import {SimpleSingleComponentResolver} from "../component-resolver";
 import {createTestConfig} from "./test-config-factory";
 import * as path from "path";
 import jsdom, {ConstructorOptions} from "jsdom";
-import {ComponentsCompiler, RaguServerConfig} from "ragu-server";
+import {ComponentsCompiler, RaguServerConfig, ServerSideCompiler} from "ragu-server";
 import fs from "fs";
+import {ComponentRenderService} from "ragu-server/src/services/component-render-service";
 
 describe('ComponentResolver', () => {
   describe('client side config', () => {
@@ -43,19 +44,56 @@ describe('ComponentResolver', () => {
       eval(client);
     }
 
+    it('renders the component from server', async () => {
+      config.ssrEnabled = true;
+      const compiler = new ServerSideCompiler(config);
+      await compiler.compileAll();
+
+      const componentPath = compiler.compiledComponentPath('hello-world');
+
+      const renderResult = await new ComponentRenderService(config)
+          .renderComponent('hello-world', [], componentPath, "http://", {name: 'World!'}, {} as any);
+
+      expect(renderResult.html).toContain('Hello, World!');
+    });
+
+    it('renders the component from server with a state', async () => {
+      let componentFile = path.resolve(__dirname, 'components', 'hello-world-state');
+      let stateFile = path.resolve(__dirname, 'components', 'state');
+
+      config.components.resolver = new SimpleSingleComponentResolver(
+          config, componentFile, stateFile);
+
+      config.ssrEnabled = true;
+
+      const compiler = new ServerSideCompiler(config);
+      await compiler.compileAll();
+
+      const componentPath = compiler.compiledComponentPath('hello-world-state');
+
+      const renderResult = await new ComponentRenderService(config)
+          .renderComponent('hello-world-state', [], componentPath, "http://", {toBeTranslatedName: 'World!'}, {} as any);
+
+      expect(renderResult.html).toContain('Hello, World!');
+    });
+
     it('renders a simple component', async () => {
       await evalCompiledClient('hello-world');
 
-      dom.window.disconnectStub = jest.fn();
       const resolvedComponent = (window as any)['test_components_hello-world'].default;
       const div = dom.window.document.createElement('div');
+      (div as any).disconnectedStub = jest.fn();
+      (div as any).connectedStub = jest.fn();
 
       await resolvedComponent.render(div, {name: 'World'});
 
       expect(div.textContent).toContain('Hello, World');
-      expect(dom.window.disconnectStub).not.toBeCalled();
+
+      div.click();
+      expect((div as any).connectedStub).toBeCalled();
+      expect((div as any).disconnectedStub).not.toBeCalled();
       resolvedComponent.disconnect(div);
-      expect(dom.window.disconnectStub).toBeCalled();
+      expect((div as any).disconnectedStub).toBeCalled();
     });
   });
 });

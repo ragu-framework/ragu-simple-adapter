@@ -1,5 +1,12 @@
 module.exports = (component, stateResolver) => ({
-  render: function () {
-    throw new Error('SSR is not supported for ragu-simple-adapter');
+  render: function (props) {
+    return stateResolver(props).then((state) => {
+      var result = component({...props, state});
+
+      return {
+        html: result.html,
+        state
+      }
+    })
   }
 })

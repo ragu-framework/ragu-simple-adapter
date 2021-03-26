@@ -25,9 +25,9 @@ Create a file that renders your component:
 
 ```javascript
 // my-mfe.js
-module.exports = (el) => {
-  el.innerHTML = 'Hello, World!';
-}
+module.exports = () => ({
+  html: 'Hello, World'
+})
 ```
 
 After, start the ragu server specifying your adapter:

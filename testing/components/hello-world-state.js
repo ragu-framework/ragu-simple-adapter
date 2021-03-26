@@ -1,6 +1,6 @@
-module.exports = ({element, params}) => {
+module.exports = ({element, state}) => {
   return {
-    html: `Hello, ${params.name}`,
+    html: `Hello, ${state.name}`,
     connectedCallback: () => element.addEventListener('click', () => element.connectedStub()),
     disconnectedCallback: () => element.disconnectedStub()
   }

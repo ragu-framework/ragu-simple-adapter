@@ -15,8 +15,7 @@ A simple adapter for [Ragu Server - A micro-frontend framework](https://ragu-fra
 ## Installation
 
 ```shell script
-yarn install ragu-cli
-yarn install ragu-simple-adapter
+yarn add webpack ragu-cli ragu-simple-adapter
 ```
 
 ## Exposing a Component
